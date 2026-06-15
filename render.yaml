@@ -7,15 +7,11 @@ services:
     rootDir: backend2
     envVars:
       - key: SPRING_DATASOURCE_URL
-        value: jdbc:postgresql://jobportal-db-dbs:5432/jobportal
+        value: jdbc:postgresql://dpg-d8nt21jtqb8s73dim3e0-a.oregon-postgres.render.com/jobportal_99c9
       - key: SPRING_DATASOURCE_USERNAME
-        fromDatabase:
-          name: jobportal-db-dbs
-          property: user
+        value: postgres_user
       - key: SPRING_DATASOURCE_PASSWORD
-        fromDatabase:
-          name: jobportal-db-dbs
-          property: password
+        value: UASVCm5czR5FRhClnOFRxr9T20qTSETY
       - key: SPRING_DATA_MONGODB_URI
         value: mongodb+srv://admin:admin@cluster0.b0ao2kv.mongodb.net/jobportal?appName=Cluster0
 
@@ -60,10 +56,3 @@ services:
     envVars:
       - key: VITE_API_BASE_URL
         sync: false
-
-databases:
-  # 5. PostgreSQL Database Service
-  - name: jobportal-db-dbs
-    databaseName: jobportal
-    user: postgres_user
-    plan: free
