@@ -3,6 +3,7 @@ services:
   - type: web
     name: job-portal-springboot
     env: docker
+    plan: free
     rootDir: backend2
     envVars:
       - key: SPRING_DATASOURCE_URL
@@ -18,6 +19,7 @@ services:
   - type: web
     name: job-portal-gateway
     env: python
+    plan: free
     rootDir: FastAPI
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
@@ -32,6 +34,7 @@ services:
   - type: web
     name: job-portal-node-backend
     env: node
+    plan: free
     rootDir: node-backend
     buildCommand: npm install
     startCommand: npm start
