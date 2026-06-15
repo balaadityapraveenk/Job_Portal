@@ -1,16 +1,10 @@
 services:
-  # 1. Spring Boot Backend (Web Service)
+  # 1. Spring Boot Backend (Web Service via Docker)
   - type: web
     name: job-portal-springboot
-    env: java
+    env: docker
     rootDir: backend2
-    buildCommand: ./mvnw clean package -DskipTests
-    startCommand: java -jar target/backend-0.0.1-SNAPSHOT.war
     envVars:
-      - key: JAVA_VERSION
-        value: 21
-      - key: PORT
-        value: 8080
       - key: SPRING_DATASOURCE_URL
         value: jdbc:postgresql://dpg-d8nt21jtqb8s73dim3e0-a.oregon-postgres.render.com/jobportal_99c9
       - key: SPRING_DATASOURCE_USERNAME
@@ -58,7 +52,4 @@ services:
     staticPublishPath: dist
     envVars:
       - key: VITE_API_BASE_URL
-        fromService:
-          name: job-portal-gateway
-          type: web
-          property: url
+        sync: false
