@@ -28,7 +28,7 @@ services:
         fromService:
           name: job-portal-springboot-dbs
           type: web
-          property: host
+          property: hostport
 
   # 3. Alternative Node.js Backend (Web Service)
   - type: web
