@@ -50,11 +50,12 @@ services:
         generateValue: true
 
   # 4. React Frontend (Static Site)
-  - type: static
+  - type: web
     name: job-portal-frontend
+    runtime: static
     rootDir: project
     buildCommand: npm install && npm run build
-    publishPath: dist
+    staticPublishPath: dist
     envVars:
       - key: VITE_API_BASE_URL
         fromService:
