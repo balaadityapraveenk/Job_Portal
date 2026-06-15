@@ -28,7 +28,7 @@ def register(user: Dict[str, Any] = Body(...)):
         response = requests.post(
             f"{SPRING_URL}/auth/register",
             json=user,
-            timeout=10
+            timeout=60
         )
         body = _parse_spring_response(response)
         return JSONResponse(status_code=response.status_code, content=body)
@@ -45,7 +45,7 @@ def login(user: Dict[str, Any] = Body(...)):
         response = requests.post(
             f"{SPRING_URL}/auth/login",
             json=user,
-            timeout=10
+            timeout=60
         )
         body = _parse_spring_response(response)
         return JSONResponse(status_code=response.status_code, content=body)

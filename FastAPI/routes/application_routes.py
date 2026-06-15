@@ -16,7 +16,7 @@ def apply_job(request: Request, application: Dict[str, Any] = Body(...)):
             f"{SPRING_URL}/applications",
             json=application,
             headers=get_headers(request),
-            timeout=10
+            timeout=60
         )
         return handle_spring_response(response)
     except requests.exceptions.ConnectionError:
@@ -32,7 +32,7 @@ def get_applications(request: Request):
         response = requests.get(
             f"{SPRING_URL}/applications",
             headers=get_headers(request),
-            timeout=10
+            timeout=60
         )
         return handle_spring_response(response)
     except requests.exceptions.ConnectionError:
@@ -48,7 +48,7 @@ def get_applications_by_user(userId: str, request: Request):
         response = requests.get(
             f"{SPRING_URL}/applications/user/{userId}",
             headers=get_headers(request),
-            timeout=10
+            timeout=60
         )
         return handle_spring_response(response)
     except requests.exceptions.ConnectionError:
@@ -65,7 +65,7 @@ def update_application_status(id: str, request: Request, application: Dict[str, 
             f"{SPRING_URL}/applications/{id}",
             json=application,
             headers=get_headers(request),
-            timeout=10
+            timeout=60
         )
         return handle_spring_response(response)
     except requests.exceptions.ConnectionError:
@@ -81,7 +81,7 @@ def withdraw_application(id: str, request: Request):
         response = requests.delete(
             f"{SPRING_URL}/applications/{id}",
             headers=get_headers(request),
-            timeout=10
+            timeout=60
         )
         handle_spring_response(response)
         return {"message": "Application withdrawn successfully"}

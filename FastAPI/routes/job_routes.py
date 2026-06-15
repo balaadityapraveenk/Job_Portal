@@ -15,7 +15,7 @@ def get_jobs(request: Request):
         response = requests.get(
             f"{SPRING_URL}/jobs",
             headers=get_headers(request),
-            timeout=10
+            timeout=60
         )
         return handle_spring_response(response)
     except requests.exceptions.ConnectionError:
@@ -32,7 +32,7 @@ def create_job(request: Request, job: Dict[str, Any] = Body(...)):
             f"{SPRING_URL}/jobs",
             json=job,
             headers=get_headers(request),
-            timeout=10
+            timeout=60
         )
         return handle_spring_response(response)
     except requests.exceptions.ConnectionError:
@@ -48,7 +48,7 @@ def get_job(id: int, request: Request):
         response = requests.get(
             f"{SPRING_URL}/jobs/{id}",
             headers=get_headers(request),
-            timeout=10
+            timeout=60
         )
         return handle_spring_response(response)
     except requests.exceptions.ConnectionError:
@@ -65,7 +65,7 @@ def update_job(id: int, request: Request, job: Dict[str, Any] = Body(...)):
             f"{SPRING_URL}/jobs/{id}",
             json=job,
             headers=get_headers(request),
-            timeout=10
+            timeout=60
         )
         return handle_spring_response(response)
     except requests.exceptions.ConnectionError:
@@ -81,7 +81,7 @@ def delete_job(id: int, request: Request):
         response = requests.delete(
             f"{SPRING_URL}/jobs/{id}",
             headers=get_headers(request),
-            timeout=10
+            timeout=60
         )
         handle_spring_response(response)
         return {"message": "Job deleted successfully"}
