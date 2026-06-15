@@ -1,0 +1,6 @@
+/* Reset App.css - all global vars live in index.css */
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
