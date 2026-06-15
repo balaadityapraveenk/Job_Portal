@@ -39,8 +39,10 @@ app.include_router(auth_routes.router, tags=["Auth"])
 app.include_router(job_routes.router, tags=["Jobs"])
 
 
+from config import SPRING_URL
+
 @app.get("/", tags=["Health"])
 def home():
-    return {"message": "FastAPI Gateway Running"}
+    return {"message": "FastAPI Gateway Running", "spring_url": SPRING_URL}
 
 #2500031053,2500031882,2500031886
