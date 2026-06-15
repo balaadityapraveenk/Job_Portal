@@ -1,27 +1,27 @@
 services:
   # 1. Spring Boot Backend (Web Service via Docker)
   - type: web
-    name: job-portal-springboot
+    name: job-portal-springboot-dbs
     env: docker
     plan: free
     rootDir: backend2
     envVars:
       - key: SPRING_DATASOURCE_URL
-        value: jdbc:postgresql://jobportal-db:5432/jobportal
+        value: jdbc:postgresql://jobportal-db-dbs:5432/jobportal
       - key: SPRING_DATASOURCE_USERNAME
         fromDatabase:
-          name: jobportal-db
+          name: jobportal-db-dbs
           property: user
       - key: SPRING_DATASOURCE_PASSWORD
         fromDatabase:
-          name: jobportal-db
+          name: jobportal-db-dbs
           property: password
       - key: SPRING_DATA_MONGODB_URI
         value: mongodb+srv://admin:admin@cluster0.b0ao2kv.mongodb.net/jobportal?appName=Cluster0
 
   # 2. FastAPI Gateway (Web Service)
   - type: web
-    name: job-portal-gateway
+    name: job-portal-gateway-dbs
     env: python
     plan: free
     rootDir: FastAPI
@@ -30,13 +30,13 @@ services:
     envVars:
       - key: SPRING_URL
         fromService:
-          name: job-portal-springboot
+          name: job-portal-springboot-dbs
           type: web
           property: host
 
   # 3. Alternative Node.js Backend (Web Service)
   - type: web
-    name: job-portal-node-backend
+    name: job-portal-node-backend-dbs
     env: node
     plan: free
     rootDir: node-backend
@@ -52,7 +52,7 @@ services:
 
   # 4. React Frontend (Static Site)
   - type: web
-    name: job-portal-frontend
+    name: job-portal-frontend-dbs
     runtime: static
     rootDir: project
     buildCommand: npm install && npm run build
@@ -63,7 +63,7 @@ services:
 
 databases:
   # 5. PostgreSQL Database Service
-  - name: jobportal-db
+  - name: jobportal-db-dbs
     databaseName: jobportal
     user: postgres_user
     plan: free
