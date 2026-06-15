@@ -25,10 +25,7 @@ services:
     startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: SPRING_URL
-        fromService:
-          name: job-portal-springboot-dbs
-          type: web
-          property: hostport
+        value: https://job-portal-springboot-dbs.onrender.com
 
   # 3. Alternative Node.js Backend (Web Service)
   - type: web
