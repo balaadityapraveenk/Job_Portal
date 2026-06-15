@@ -18,7 +18,8 @@ origins = [
     "http://localhost:5175",
     "http://127.0.0.1:5175",
     "http://localhost:3000",
-    "http://127.0.0.1:3000"
+    "http://127.0.0.1:3000",
+    "https://job-portal-frontend-dbs.onrender.com"
 ]
 client_origin = os.getenv("CLIENT_ORIGIN")
 if client_origin:
