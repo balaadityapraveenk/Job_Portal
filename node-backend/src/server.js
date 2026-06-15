@@ -2,7 +2,6 @@ import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
-import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { mkdir, readFile, writeFile } from 'fs/promises';
 import path from 'path';
@@ -122,11 +121,10 @@ app.post('/auth/register', async (req, res) => {
     const existing = await User.findOne({ email: email.toLowerCase().trim() });
     if (existing) return res.status(409).json({ detail: 'Email already registered' });
 
-    const hashedPassword = await bcrypt.hash(password, 10);
     const user = await User.create({
       name: name || username,
       email,
-      password: hashedPassword,
+      password,
       role: normalizedRole,
       companyName
     });
@@ -148,7 +146,7 @@ app.post('/auth/login', async (req, res) => {
     const loginEmail = aliases[String(email || '').toLowerCase()] || email;
     const user = await User.findOne({ email: String(loginEmail || '').toLowerCase().trim() });
 
-    if (!user || !(await bcrypt.compare(password || '', user.password))) {
+    if (!user || user.password !== (password || '')) {
       return res.status(401).json({ detail: 'Invalid email or password' });
     }
 
@@ -299,7 +297,7 @@ const seedUsers = async () => {
   for (const seed of seeds) {
     const exists = await User.findOne({ email: seed.email });
     if (!exists) {
-      await User.create({ ...seed, password: await bcrypt.hash(seed.password, 10) });
+      await User.create(seed);
     }
   }
 };

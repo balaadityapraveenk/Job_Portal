@@ -1,0 +1,63 @@
+services:
+  # 1. Spring Boot Backend (Web Service)
+  - type: web
+    name: job-portal-springboot
+    env: java
+    rootDir: backend2
+    buildCommand: ./mvnw clean package -DskipTests
+    startCommand: java -jar target/backend-0.0.1-SNAPSHOT.war
+    envVars:
+      - key: JAVA_VERSION
+        value: 21
+      - key: PORT
+        value: 8080
+      - key: SPRING_DATASOURCE_URL
+        value: jdbc:postgresql://dpg-d8nt21jtqb8s73dim3e0-a.oregon-postgres.render.com/jobportal_99c9
+      - key: SPRING_DATASOURCE_USERNAME
+        value: postgres_user
+      - key: SPRING_DATASOURCE_PASSWORD
+        value: UASVCm5czR5FRhClnOFRxr9T20qTSETY
+      - key: SPRING_DATA_MONGODB_URI
+        value: mongodb+srv://admin:admin@cluster0.b0ao2kv.mongodb.net/jobportal?appName=Cluster0
+
+  # 2. FastAPI Gateway (Web Service)
+  - type: web
+    name: job-portal-gateway
+    env: python
+    rootDir: FastAPI
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: SPRING_URL
+        fromService:
+          name: job-portal-springboot
+          type: web
+          property: host
+
+  # 3. Alternative Node.js Backend (Web Service)
+  - type: web
+    name: job-portal-node-backend
+    env: node
+    rootDir: node-backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: PORT
+        value: 8000
+      - key: MONGODB_URI
+        value: mongodb+srv://admin:admin@cluster0.b0ao2kv.mongodb.net/jobportal?appName=Cluster0
+      - key: JWT_SECRET
+        generateValue: true
+
+  # 4. React Frontend (Static Site)
+  - type: static
+    name: job-portal-frontend
+    rootDir: project
+    buildCommand: npm install && npm run build
+    publishPath: dist
+    envVars:
+      - key: VITE_API_BASE_URL
+        fromService:
+          name: job-portal-gateway
+          type: web
+          property: url

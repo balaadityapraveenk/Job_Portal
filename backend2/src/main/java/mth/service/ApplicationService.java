@@ -52,14 +52,23 @@ public class ApplicationService {
     }
 
     public Application applyForJob(Application application) {
-        final String finalUserId;
+        String resolvedUserId = null;
         if (application.getUser() != null && application.getUser().getId() != null) {
-            finalUserId = application.getUser().getId();
+            resolvedUserId = application.getUser().getId();
         } else if (application.getUserId() != null) {
-            finalUserId = application.getUserId();
+            resolvedUserId = application.getUserId();
         } else {
-            finalUserId = null;
+            org.springframework.security.core.Authentication auth = 
+                    org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication();
+            if (auth != null && auth.getPrincipal() instanceof org.springframework.security.core.userdetails.UserDetails) {
+                String email = ((org.springframework.security.core.userdetails.UserDetails) auth.getPrincipal()).getUsername();
+                User secUser = userRepository.findByEmail(email);
+                if (secUser != null) {
+                    resolvedUserId = secUser.getId();
+                }
+            }
         }
+        final String finalUserId = resolvedUserId;
 
         if (finalUserId == null) {
             throw new IllegalArgumentException("User ID must be specified");

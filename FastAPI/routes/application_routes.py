@@ -42,7 +42,7 @@ def get_applications(request: Request):
 
 
 @router.get("/applications/user/{userId}")
-def get_applications_by_user(userId: int, request: Request):
+def get_applications_by_user(userId: str, request: Request):
     """Retrieve all job applications for a specific user from the Spring backend."""
     try:
         response = requests.get(
@@ -58,7 +58,7 @@ def get_applications_by_user(userId: int, request: Request):
 
 
 @router.put("/applications/{id}")
-def update_application_status(id: int, request: Request, application: Dict[str, Any] = Body(...)):
+def update_application_status(id: str, request: Request, application: Dict[str, Any] = Body(...)):
     """Update the status of a job application via the Spring backend (Admin use)."""
     try:
         response = requests.put(
@@ -75,7 +75,7 @@ def update_application_status(id: int, request: Request, application: Dict[str, 
 
 
 @router.delete("/applications/{id}")
-def withdraw_application(id: int, request: Request):
+def withdraw_application(id: str, request: Request):
     """Withdraw/delete a job application via the Spring backend."""
     try:
         response = requests.delete(

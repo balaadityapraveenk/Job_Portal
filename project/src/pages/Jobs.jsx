@@ -294,6 +294,7 @@ export default function Jobs() {
         method: 'POST',
         body: JSON.stringify({
           status: 'Applied',
+          user: { id: user?.id },
           job: {
             id: isNaN(Number(role.id)) ? null : Number(role.id),
             title: role.title,
